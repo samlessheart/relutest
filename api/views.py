@@ -9,18 +9,11 @@ from .permissions import IsTeacherorStaff, IsOwnerorStaff, IsStaff
 from  rest_framework.mixins import RetrieveModelMixin
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated , IsOwnerorStaff])
-def userdetails(request, pk):
-    user = CustomUser.objects.get(pk=pk)
-    serializer = UserSerializer(user)
-    return Response( serializer.data )
-
-
 class UserDetail(generics.GenericAPIView, RetrieveModelMixin):
     queryset = CustomUser.objects.all() 
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated, IsOwnerorStaff]
+    
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
     
